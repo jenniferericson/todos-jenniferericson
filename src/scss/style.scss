@@ -19,8 +19,6 @@
     padding: 20px;
     margin: 40px;
 
-    height: 600px;
-
    &__title {
     margin: 20px;
     text-decoration: underline;
@@ -53,12 +51,28 @@ p {
     background-color: white;
 
    &:hover {
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.77);
     }
 }
 
 .doneText {
     text-decoration: line-through;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+}
+
+input {
+    padding: 8px;
+}
+
+.submitBtn {
+    margin-top: 10px;
+    padding: 8px;
 }
 
 

@@ -6,10 +6,8 @@ const title = document.createElement("h3");
 const ul = document.createElement("ul");
 const sortBtn = document.createElement("button");
 
-title.innerHTML = "To dos måndag";
+title.innerHTML = "To do måndag";
 sortBtn.innerHTML = "A-Ö";
-
-
 
 toDoContainer.className = "container";
 title.className = "container__title";
@@ -23,6 +21,13 @@ let toDo4 = new toDo("Plugga", false);
 let toDo5 = new toDo("Handla middag", false);
 
 const toDoList = [toDo1,toDo2,toDo3,toDo4,toDo5];
+
+let stringToDoList = JSON.stringify(toDoList);
+localStorage.setItem("toDoList", stringToDoList);
+
+const myListFunction = () => {
+
+    ul.innerHTML = "";
 
 for(let i = 0; i < toDoList.length; i++){
 
@@ -38,8 +43,6 @@ for(let i = 0; i < toDoList.length; i++){
 
         text.className = "doneText";
 
-        let stringToDoList = JSON.stringify(toDoList);
-        localStorage.setItem("toDoList", stringToDoList);
 
        console.log(toDoList[i]);
        console.log(toDoList);
@@ -65,8 +68,36 @@ for(let i = 0; i < toDoList.length; i++){
     ul.appendChild(taskContainer);
     taskContainer.appendChild(removeBtn);
     taskContainer.appendChild(text);
-};   
+}; 
+};  
 
 toDoContainer.appendChild(title);
 toDoContainer.appendChild(sortBtn);
 toDoContainer.appendChild(ul);
+
+window.onload = myListFunction();
+
+const form = document.createElement("form");
+let input = document.createElement("input");
+const submitBtn = document.createElement("button");
+
+submitBtn.className = "submitBtn";
+
+input.type = "text";
+input.placeholder = "Ny uppgift";
+submitBtn.innerHTML = "Ny uppgift";
+
+submitBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    let textInInput = input.value;
+    let newToDo = new toDo(textInInput, false);
+    toDoList.push(newToDo);
+
+    myListFunction();
+    console.log(toDoList);
+});
+
+toDoContainer.appendChild(form);
+form.appendChild(input);
+form.appendChild(submitBtn);
