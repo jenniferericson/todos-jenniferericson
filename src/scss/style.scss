@@ -1,3 +1,5 @@
+@use "mixins";
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,6 +8,7 @@
 
 .sortBtn {
     padding: 8px;
+    cursor: pointer;
 }
 
 .container {
@@ -28,15 +31,19 @@
    &__ul {
     width: 100%;
     list-style: none;
+
+    &__toDos {
+        background-color: rgb(255, 255, 255);
+        border-radius: 20px;
+    
+        margin: 20px;
+        padding: 10px;
+
+        @include mixins.desktop {
+            margin: 20px 200px;
+        }
+       }
    } 
-
-   &__ul--toDos {
-    background-color: rgb(255, 255, 255);
-    border-radius: 20px;
-
-    margin-top: 20px;
-    padding: 10px;
-   }
 }
 
 p {
@@ -49,6 +56,7 @@ p {
     border: solid black;
     padding: 8px;
     background-color: white;
+    cursor: pointer;
 
    &:hover {
     background-color: rgba(0, 0, 0, 0.77);
@@ -63,17 +71,31 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
+    width: 100%;
+    padding: 0px 20px;
+
+    @include mixins.desktop {
+        padding: 0px 200px;
+    }
 }
 
 input {
-    padding: 8px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    width: 100%;
+    height: 44px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15px;
 }
 
 .submitBtn {
-    margin-top: 10px;
+    margin-top: 15px;
     padding: 8px;
+    cursor: pointer;
 }
+
+
 
 
 
