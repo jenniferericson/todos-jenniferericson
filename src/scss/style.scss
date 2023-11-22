@@ -7,7 +7,8 @@
 }
 
 .sortBtn {
-    padding: 8px;
+    margin-top: 15px;
+    padding: 5px;
     cursor: pointer;
 }
 
@@ -22,10 +23,19 @@
     padding: 20px;
     margin: 40px;
 
+    @include mixins.desktop {
+        margin: 40px 100px;
+    }
+
    &__title {
-    margin: 20px;
+    margin-top: 20px;
     text-decoration: underline;
     font-size: 30px;
+   }
+
+   &__date {
+    margin-top: 5px;
+    font-style: italic;
    }
    
    &__ul {
@@ -39,19 +49,20 @@
         margin: 20px;
         padding: 10px;
 
+        
         @include mixins.desktop {
-            margin: 20px 200px;
+            margin: 20px 150px;
         }
-       }
+
+        p {
+            display: inline;
+            margin-left: 20px;
+        }  
+    }
    } 
 }
 
-p {
-    display: inline;
-    margin-left: 20px;
-}
-
-.removeBtn {
+.completeBtn {
     border-radius: 50%;
     border: solid black;
     padding: 8px;
@@ -67,6 +78,18 @@ p {
     text-decoration: line-through;
 }
 
+.doneBtn {
+    border-radius: 50%;
+    border: solid black;
+    padding: 8px;
+    background-color: rgb(200, 229, 239);
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.77);
+        }
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -75,7 +98,7 @@ form {
     padding: 0px 20px;
 
     @include mixins.desktop {
-        padding: 0px 200px;
+        padding: 0px 150px;
     }
 }
 
@@ -90,9 +113,13 @@ input {
 }
 
 .submitBtn {
-    margin-top: 15px;
+    margin: 20px 0px;
     padding: 8px;
     cursor: pointer;
+
+    @include mixins.desktop {
+        width: 130px;
+    }
 }
 
 

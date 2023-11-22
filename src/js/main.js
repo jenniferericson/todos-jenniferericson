@@ -13,6 +13,7 @@ let toDoList = [toDo1,toDo2,toDo3,toDo4,toDo5];
 // DOM
 const toDoContainer = document.querySelector("main");
 const title = document.createElement("h3");
+const date = document.createElement("p");
 const ul = document.createElement("ul");
 
 const sortBtn = document.createElement("button");
@@ -22,10 +23,12 @@ let input = document.createElement("input");
 const submitBtn = document.createElement("button");
 
 title.innerHTML = "To do måndag";
+date.innerHTML = "21 november 2023"
 sortBtn.innerHTML = "A-Ö";
 
 toDoContainer.className = "container";
 title.className = "container__title";
+date.className = "container__date";
 ul.className = "container__ul";
 sortBtn.className = "sortBtn";
 submitBtn.className = "submitBtn";
@@ -38,7 +41,8 @@ submitBtn.innerHTML = "Lägg till";
 let myMainFunction = () => {
 
     if (localStorage.getItem("toDoList") === null) {
-        localStorage.setItem("toDoList", JSON.stringify("toDoList"));
+        const stringToDoList = JSON.stringify(toDoList);
+        localStorage.setItem("toDoList", stringToDoList);
       } else {
         toDoList = JSON.parse(localStorage.getItem("toDoList"));
       }
@@ -46,15 +50,28 @@ let myMainFunction = () => {
     ul.innerHTML = "";
     
     for(let i = 0; i < toDoList.length; i++){  
+
         let taskContainer = document.createElement("li");
         let text = document.createElement("p");
+        const completeBtn = document.createElement("button");
+
         taskContainer.className = "container__ul__toDos";
-    
-        const removeBtn = document.createElement("button");
-        removeBtn.className = "removeBtn";
-    
-        text.innerHTML = toDoList[i].task;
         
+        text.innerHTML = toDoList[i].task;
+
+        const doneOrNotFunction = () => {
+        if (toDoList[i].done == true) {
+            text.classList = "doneText";
+            completeBtn.classList = "doneBtn";
+        } else {
+            text.classList.remove("doneText");
+            completeBtn.classList.remove("doneBtn");
+            completeBtn.className = "completeBtn";
+        }
+        };
+
+        doneOrNotFunction();
+
         const sortFunction = () => {
             toDoList.sort(function(a, b){
                 let x = a.task.toLowerCase();
@@ -63,44 +80,56 @@ let myMainFunction = () => {
                 if (x > y) {return 1;}
                 return 0;
             });
-            localStorage.setItem("toDoList", JSON.stringify(toDoList));
-            myMainFunction();
-        }
-    
-        const doneFunction = () => {
-            toDoList[i].done = true;
 
             localStorage.setItem("toDoList", JSON.stringify(toDoList));
-    
-            console.log(toDoList[i]);
-            console.log(toDoList);
+
+            myMainFunction();
+            };
+        
+        const doneFunction = () => {
+            toDoList[i].done = true;
+            
+            localStorage.setItem("toDoList", JSON.stringify(toDoList));
+            
+            completeBtn.removeEventListener("click", () => {
+                doneFunction();
+            });
+            
+            completeBtn.addEventListener ("click",() => {
+                toDoList[i].done = false;
+                
+                localStorage.setItem("toDoList", JSON.stringify(toDoList));
+
+                doneOrNotFunction();
+            });
         };
 
         sortBtn.addEventListener("click", () => {
             sortFunction ();
         });
-
-        removeBtn.addEventListener("click", () => {
-                doneFunction();
-        });
     
-        ul.appendChild(taskContainer);
-        taskContainer.appendChild(removeBtn);
-        taskContainer.appendChild(text);
-    }; 
+        completeBtn.addEventListener("click", () => {
+                doneFunction();
+                doneOrNotFunction();
+        });
 
-};  
+        ul.appendChild(taskContainer);
+        taskContainer.appendChild(completeBtn);
+        taskContainer.appendChild(text);
+    };   
+}; 
+  
 
 submitBtn.addEventListener("click", (e) => {
     
+    e.preventDefault();
     let textInInput = input.value;
     let newToDo = new toDo(textInInput, false);
     toDoList.push(newToDo);
 
-    e.preventDefault();
     localStorage.setItem("toDoList", JSON.stringify(toDoList));
 
-    console.log(toDoList);
+    input.value = "";
 
     myMainFunction();
 });
@@ -109,6 +138,7 @@ window.onload = myMainFunction();
 
 //DOM
 toDoContainer.appendChild(title);
+toDoContainer.appendChild(date);
 toDoContainer.appendChild(sortBtn);
 toDoContainer.appendChild(ul);
 
