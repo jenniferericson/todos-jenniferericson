@@ -10,6 +10,10 @@ let toDo5 = new toDo("Handla middag", false);
 
 let toDoList = [toDo1,toDo2,toDo3,toDo4,toDo5];
 
+if (localStorage.getItem("toDoList")) {
+    toDoList = JSON.parse(localStorage.getItem("toDoList"));
+  }
+
 // DOM
 const container = document.querySelector("main");
 const header = document.createElement("header");
@@ -43,14 +47,9 @@ submitBtn.innerHTML = "Lägg till";
 // Functions
 let myMainFunction = () => {
 
-    if (localStorage.getItem("toDoList") === null) {
-        const stringToDoList = JSON.stringify(toDoList);
-        localStorage.setItem("toDoList", stringToDoList);
-      } else {
-        toDoList = JSON.parse(localStorage.getItem("toDoList"));
-      }
-
     toDos.innerHTML = "";
+
+    localStorage.setItem("toDoList", JSON.stringify(toDoList));
     
     for(let i = 0; i < toDoList.length; i++){  
 
@@ -59,24 +58,28 @@ let myMainFunction = () => {
         const completeBtn = document.createElement("button");
 
         li.className = "toDos__li";
-        text.className = "toDos__li__p"
-        completeBtn.className = "toDos__li__completeBtn"
         
         text.innerHTML = toDoList[i].task;
 
-        const doneOrNotFunction = () => {
         if (toDoList[i].done == true) {
             text.className = "toDos__li__p--done";
             completeBtn.className = "toDos__li__completeBtn--done";
+            completeBtn.addEventListener("click", () => {
+                toDoList[i].done = false;
+
+                myMainFunction();
+            });
         } else {
             text.className = "toDos__li__p"
             completeBtn.className = "toDos__li__completeBtn";
-        }
+            completeBtn.addEventListener("click", () => {
+                toDoList[i].done = true;
+
+                myMainFunction();
+            });
         };
-
-        doneOrNotFunction();
-
-        const sortFunction = () => {
+       
+        sortBtn.addEventListener("click", () => {
             toDoList.sort(function(a, b){
                 let x = a.task.toLowerCase();
                 let y = b.task.toLowerCase();
@@ -85,40 +88,9 @@ let myMainFunction = () => {
                 return 0;
             });
 
-            localStorage.setItem("toDoList", JSON.stringify(toDoList));
-
             myMainFunction();
-            };
-        
-        const doneFunction = () => {
-            toDoList[i].done = true;
-
-            console.log(toDoList)
-            
-            localStorage.setItem("toDoList", JSON.stringify(toDoList));
-            
-            completeBtn.removeEventListener("click", () => {
-                doneFunction();
-            });
-            
-            completeBtn.addEventListener ("click",() => {
-                toDoList[i].done = false;
-                
-                localStorage.setItem("toDoList", JSON.stringify(toDoList));
-
-                doneOrNotFunction();
-            });
-        };
-
-        sortBtn.addEventListener("click", () => {
-            sortFunction ();
         });
     
-        completeBtn.addEventListener("click", () => {
-                doneFunction();
-                doneOrNotFunction();
-        });
-
         toDos.appendChild(li);
         li.appendChild(completeBtn);
         li.appendChild(text);
@@ -126,13 +98,10 @@ let myMainFunction = () => {
 }; 
 
 submitBtn.addEventListener("click", (e) => {
-    
     e.preventDefault();
     let textInInput = input.value;
     let newToDo = new toDo(textInInput, false);
     toDoList.push(newToDo);
-
-    localStorage.setItem("toDoList", JSON.stringify(toDoList));
 
     input.value = "";
 
