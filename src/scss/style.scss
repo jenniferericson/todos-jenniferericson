@@ -1,34 +1,31 @@
 @use "mixins";
+@use "variables" as v;
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-.sortBtn {
-    margin-top: 15px;
-    padding: 5px;
-    cursor: pointer;
+    font-family: 'Times New Roman', Times, serif
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    align-items: center;
+    @include mixins.flex;
 
     border-radius: 20px;
-    background-color: rgb(200, 229, 239);
-    padding: 20px;
+    background-color: v.$main-color;
+    padding: v.$padding-20;
     margin: 40px;
 
     @include mixins.desktop {
         margin: 40px 100px;
     }
+}
+
+.header {
+    @include mixins.flex;
 
    &__title {
-    margin-top: 20px;
+    margin-top: v.$margin-20;
     text-decoration: underline;
     font-size: 30px;
    }
@@ -38,90 +35,95 @@
     font-style: italic;
    }
    
-   &__ul {
-    width: 100%;
-    list-style: none;
+   &__sortBtn {
+    margin-top: 15px;
+    padding: v.$padding-8;
+    cursor: v.$click;
+   }
+}
 
-    &__toDos {
+.toDos {
+width: v.$width-100;
+list-style: none;
+
+    &__li {
         background-color: rgb(255, 255, 255);
         border-radius: 20px;
     
-        margin: 20px;
+        margin: v.$margin-20;
         padding: 10px;
 
         
         @include mixins.desktop {
-            margin: 20px 150px;
+            margin: v.$margin-20 150px;
         }
 
-        p {
+        &__p {
             display: inline;
-            margin-left: 20px;
+            margin-left: v.$margin-20;
+
+            &--done {
+                display: inline;
+                margin-left: v.$margin-20;
+                text-decoration: line-through;
+            }
         }  
-    }
-   } 
-}
 
-.completeBtn {
-    border-radius: 50%;
-    border: solid black;
-    padding: 8px;
-    background-color: white;
-    cursor: pointer;
+        &__completeBtn {
+            border-radius: 50%;
+            border: solid black;
+            padding: v.$padding-8;
+            background-color: white;
+            cursor: v.$click;
+        
+           &:hover {
+            background-color: rgba(0, 0, 0, 0.77);
+            }
 
-   &:hover {
-    background-color: rgba(0, 0, 0, 0.77);
-    }
-}
-
-.doneText {
-    text-decoration: line-through;
-}
-
-.doneBtn {
-    border-radius: 50%;
-    border: solid black;
-    padding: 8px;
-    background-color: rgb(200, 229, 239);
-    cursor: pointer;
-
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.77);
+            &--done {
+                border-radius: 50%;
+                border: solid black;
+                padding: v.$padding-8;
+                background-color: v.$main-color;
+                cursor: v.$click;
+            
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.77);
+                    }
+            }
         }
-}
+    }
+} 
 
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding: 0px 20px;
+.form {
+    @include mixins.flex;
+
+    width: v.$width-100;
+    padding: 0px v.$padding-20;
 
     @include mixins.desktop {
         padding: 0px 150px;
     }
-}
-
-input {
+    
+&__input {
     padding: 10px;
     border: none;
     border-radius: 20px;
-    width: 100%;
+    width: v.$width-100;
     height: 44px;
-    font-family: 'Times New Roman', Times, serif;
     font-size: 15px;
-}
+    }
 
-.submitBtn {
-    margin: 20px 0px;
-    padding: 8px;
-    cursor: pointer;
+&__submitBtn {
+    margin: v.$margin-20 0px;
+    padding: v.$padding-8;
+    cursor: v.$click;
 
     @include mixins.desktop {
         width: 130px;
     }
+   }
 }
-
 
 
 

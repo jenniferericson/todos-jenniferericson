@@ -11,12 +11,12 @@ let toDo5 = new toDo("Handla middag", false);
 let toDoList = [toDo1,toDo2,toDo3,toDo4,toDo5];
 
 // DOM
-const toDoContainer = document.querySelector("main");
+const container = document.querySelector("main");
+const header = document.createElement("header");
 const title = document.createElement("h3");
 const date = document.createElement("p");
-const ul = document.createElement("ul");
-
 const sortBtn = document.createElement("button");
+const toDos = document.createElement("ul");
 
 const form = document.createElement("form");
 let input = document.createElement("input");
@@ -26,12 +26,15 @@ title.innerHTML = "To do måndag";
 date.innerHTML = "21 november 2023"
 sortBtn.innerHTML = "A-Ö";
 
-toDoContainer.className = "container";
-title.className = "container__title";
-date.className = "container__date";
-ul.className = "container__ul";
-sortBtn.className = "sortBtn";
-submitBtn.className = "submitBtn";
+container.className = "container";
+header.className = "header";
+title.className = "header__title";
+date.className = "header__date";
+sortBtn.className = "header__sortBtn";
+toDos.className = "toDos";
+form.className = "form";
+input.className = "form__input"
+submitBtn.className = "form__submitBtn";
 
 input.type = "text";
 input.placeholder = "Ny uppgift";
@@ -47,26 +50,27 @@ let myMainFunction = () => {
         toDoList = JSON.parse(localStorage.getItem("toDoList"));
       }
 
-    ul.innerHTML = "";
+    toDos.innerHTML = "";
     
     for(let i = 0; i < toDoList.length; i++){  
 
-        let taskContainer = document.createElement("li");
+        let li = document.createElement("li");
         let text = document.createElement("p");
         const completeBtn = document.createElement("button");
 
-        taskContainer.className = "container__ul__toDos";
+        li.className = "toDos__li";
+        text.className = "toDos__li__p"
+        completeBtn.className = "toDos__li__completeBtn"
         
         text.innerHTML = toDoList[i].task;
 
         const doneOrNotFunction = () => {
         if (toDoList[i].done == true) {
-            text.classList = "doneText";
-            completeBtn.classList = "doneBtn";
+            text.className = "toDos__li__p--done";
+            completeBtn.className = "toDos__li__completeBtn--done";
         } else {
-            text.classList.remove("doneText");
-            completeBtn.classList.remove("doneBtn");
-            completeBtn.className = "completeBtn";
+            text.className = "toDos__li__p"
+            completeBtn.className = "toDos__li__completeBtn";
         }
         };
 
@@ -88,6 +92,8 @@ let myMainFunction = () => {
         
         const doneFunction = () => {
             toDoList[i].done = true;
+
+            console.log(toDoList)
             
             localStorage.setItem("toDoList", JSON.stringify(toDoList));
             
@@ -113,12 +119,11 @@ let myMainFunction = () => {
                 doneOrNotFunction();
         });
 
-        ul.appendChild(taskContainer);
-        taskContainer.appendChild(completeBtn);
-        taskContainer.appendChild(text);
+        toDos.appendChild(li);
+        li.appendChild(completeBtn);
+        li.appendChild(text);
     };   
 }; 
-  
 
 submitBtn.addEventListener("click", (e) => {
     
@@ -137,11 +142,12 @@ submitBtn.addEventListener("click", (e) => {
 window.onload = myMainFunction();
 
 //DOM
-toDoContainer.appendChild(title);
-toDoContainer.appendChild(date);
-toDoContainer.appendChild(sortBtn);
-toDoContainer.appendChild(ul);
+container.appendChild(header);
+header.appendChild(title);
+header.appendChild(date);
+header.appendChild(sortBtn);
 
-toDoContainer.appendChild(form);
+container.appendChild(toDos);
+container.appendChild(form);
 form.appendChild(input);
 form.appendChild(submitBtn);
